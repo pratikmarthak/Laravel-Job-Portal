@@ -9,21 +9,31 @@ use App\Http\Controllers\Admin\Auth\PasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\IndustryTypeController;
+use App\Http\Controllers\Admin\OrganizationTypeController;
+use App\Http\Controllers\Admin\StateController;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-
-Route::group(
-    ['middleware' => 'guest:admin','prefix' => 'admin','as' => 'admin.'],
-    function () {
+/*
+|--------------------------------------------------------------------------
+| Admin Guest Routes
+|--------------------------------------------------------------------------
+*/
+Route::group([
+    'middleware' => 'guest:admin',
+    'prefix' => 'admin',
+    'as' => 'admin.'
+], function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
@@ -38,33 +48,32 @@ Route::group(
         ->name('password.store');
 });
 
-Route::group(['middleware' => 'auth:admin','prefix' => 'admin', 'as' => 'admin.'],
+/*
+|--------------------------------------------------------------------------
+| Admin Authenticated Routes
+|--------------------------------------------------------------------------
+*/
+Route::group([
+    'middleware' => 'auth:admin',
+    'prefix' => 'admin',
+    'as' => 'admin.'
+], function () {
 
-     /* Dashboard Route */
+        // Logout
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    // Dashboard Route
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    function () {
+    // Industry Type Routes
+    Route::resource('industry-types', IndustryTypeController::class);
 
-    Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
+    // Organization Routes
+    Route::resource('organization-types', OrganizationTypeController::class);
 
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
+    // Country Routes
+    Route::resource('country', CountryController::class);
 
-        Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
-
-
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
-
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
-
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+    // Country Routes
+    Route::resource('states', StateController::class);
 });
+

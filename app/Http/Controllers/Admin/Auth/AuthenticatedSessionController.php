@@ -16,8 +16,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View | RedirectResponse
     {
+        //dd($request->all());
+
         if (auth('admin')->check()) {
-            return redirect()->route('/admin/dashboard');
+            return redirect()->route('admin.dashboard');
         }
         return view('admin.auth.login');
     }

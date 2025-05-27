@@ -8,7 +8,8 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    function index() : View {
-        return View('admin.dashboard.index');
+    public function index(): View
+    {
+        return view('admin.dashboard.index');
     }
 }

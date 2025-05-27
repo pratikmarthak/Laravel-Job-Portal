@@ -7,8 +7,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "cviebrock/eloquent-sluggable": "^12.0",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "mckenziearts/laravel-notify": "^2.7"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",
@@ -26,7 +28,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+        "app/helpers/GlobalHelpers.php"
+    ]
     },
     "autoload-dev": {
         "psr-4": {

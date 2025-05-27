@@ -68,7 +68,7 @@
                     <!-- Email Address -->
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email" :value="old('email')" tabindex="1" required autofocus>
+                    <input id="email" type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email" value="{{ old('email') }}" tabindex="1" required autofocus>
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                   </div>
 
@@ -82,7 +82,7 @@
                         </a>
                       </div>
                     </div>
-                    <input id="password" type="password" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" name="password" tabindex="2" required>
+                    <input id="password" type="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" name="password" tabindex="2" required>
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                   </div>
 

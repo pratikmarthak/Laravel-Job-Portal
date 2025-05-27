@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\admin;
+use App\Models\Admin;
 class AdminSeeder extends Seeder
 {
     /**
@@ -15,6 +15,10 @@ class AdminSeeder extends Seeder
         $admin = new Admin();
         $admin->name = 'Super Admin';
         $admin->email = 'superadmin@gmail.com';
+        $admin->password = bcrypt('password');
+
+        $admin->name = 'Admin';
+        $admin->email = 'admin@gmail.com';
         $admin->password = bcrypt('password');
         $admin->save();
     }

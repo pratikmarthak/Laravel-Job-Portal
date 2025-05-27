@@ -1372,7 +1372,7 @@ input[type=email],
 input[type=date],
 input[type=time],
 input[type=tel] {
-  border: 1px solid #1ca7741a;
+  border: 1px solid #1ca7741a !important;
   border-radius: 0;
   height: 50px;
   box-shadow: none;
@@ -5197,7 +5197,7 @@ ul li:last-child .card-list-4 {
 }
 
 /***************************
-    Page section margin
+    Page section margin 
 ****************************/
 .mtb-0 {
   margin: 0;
@@ -9640,4 +9640,21 @@ footer .color-text-paragraph {
 
 .form-check-label:hover {
   color: #198754;
+}
+
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: var(--bs-nav-pills-link-active-color);
+    background-color: var(--colorPrimary);
+    border-radius: 0px;
+}
+
+.nav-pills .nav-link{
+    border-radius: var(--bs-nav-pills-link-active-color);
+    color: var(--colorBlack);
+}
+
+.notify 
+{
+    z-index: 9999;
 }
