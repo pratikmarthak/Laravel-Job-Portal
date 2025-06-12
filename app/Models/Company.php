@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Company extends Model
 {
@@ -37,5 +38,23 @@ class Company extends Model
                 'source' => 'name',
             ]
         ];
+    }
+    public function industryType():BelongsTo{
+        return $this->belongsTo(IndustryType::class,'industry_type_id','id');
+    }
+    public function organizationType():BelongsTo{
+        return $this->belongsTo(Organization::class,'organization_type_id','id');
+    }
+    public function teamSize():BelongsTo{
+        return $this->belongsTo(TeamSize::class,'team_size_id','id');
+    }
+    public function companyCountry():BelongsTo{
+        return $this->belongsTo(Country::class,'country','id');
+    }
+    public function companyState():BelongsTo{
+        return $this->belongsTo(State::class,'state','id');
+    }
+    public function companyCity():BelongsTo{
+        return $this->belongsTo(City::class,'city','id');
     }
 }

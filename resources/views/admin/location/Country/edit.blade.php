@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Create Countries</h4>
+                <h4>Update Countries</h4>
             </div>
             <div class="card-body p-0">
                 <form action="{{ route('admin.country.update',compact("country")) }}" method="post">

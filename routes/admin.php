@@ -9,11 +9,16 @@ use App\Http\Controllers\Admin\Auth\PasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\IndustryTypeController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\OrganizationTypeController;
 use App\Http\Controllers\Admin\StateController;
+use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\ProfessionController;
+use App\Http\Controllers\Admin\SkillController;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
 
@@ -73,7 +78,21 @@ Route::group([
     // Country Routes
     Route::resource('country', CountryController::class);
 
-    // Country Routes
+    // State Routes
     Route::resource('states', StateController::class);
+
+    // City Routes
+    Route::resource('cities', CityController::class);
+
+    Route::get('get-states/{country_id}', [LocationController::class, 'getStatesOfCountry'])->name('get-states');
+
+    // Language Routes
+    Route::resource('languages', LanguageController::class);
+
+    // Profession Routes
+    Route::resource('professions', ProfessionController::class);
+
+    // Skills Routes
+    Route::resource('skills', SkillController::class);
 });
 

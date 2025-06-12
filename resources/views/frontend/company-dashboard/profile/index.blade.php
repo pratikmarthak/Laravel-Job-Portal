@@ -24,101 +24,7 @@
                 @include('frontend.company-dashboard.sidebar')
 
                 <div class="col-lg-9 col-md-8 col-sm-12 col-12 mb-50">
-                    {{-- <div class="content-single">
-                        <h3 class="mt-0 mb-15 color-brand-1">My Account</h3><a class="font-md color-text-paragraph-2"
-                            href="#">Update your profile</a>
-                        <div class="mt-35 mb-40 box-info-profie">
-                            <div class="image-profile"><img src="assets/imgs/page/candidates/candidate-profile.png"
-                                    alt="joblist">
-                            </div><a class="btn btn-apply">Upload Avatar</a><a class="btn btn-link">Delete</a>
-                        </div>
-                        <div class="row form-contact">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="font-sm color-text-mutted mb-10">Full Name *</label>
-                                    <input class="form-control" type="text" value="Steven Job">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="font-sm color-text-mutted mb-10">Email *</label>
-                                    <input class="form-control" type="text" value="stevenjob@gmail.com">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="font-sm color-text-mutted mb-10">Contact number</label>
-                                    <input class="form-control" type="text" value="01 - 234 567 89">
-                                </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="font-sm color-text-mutted mb-10">Personal website</label>
-                                    <input class="form-control" type="url" value="https://alithemes.com">
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="font-sm color-text-mutted mb-10">Bio</label>
-                                    <textarea class="form-control" rows="4">We are AliThemes , a creative and dedicated group of individuals who love web development almost as much as we love our customers. We are passionate team with the mission for achieving the perfection in web design.</textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="font-sm color-text-mutted mb-10">Country</label>
-                                        <input class="form-control" type="text" value="United States">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="font-sm color-text-mutted mb-10">State</label>
-                                        <input class="form-control" type="text" value="New York">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="font-sm color-text-mutted mb-10">City</label>
-                                        <input class="form-control" type="text" value="Mcallen">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="font-sm color-text-mutted mb-10">Zip code</label>
-                                        <input class="form-control" type="text" value="82356">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="border-bottom pt-10 pb-10 mb-30"></div>
-                            <h6 class="color-orange mb-20">Change your password</h6>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="font-sm color-text-mutted mb-10">Password</label>
-                                        <input class="form-control" type="password" value="123456789">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="font-sm color-text-mutted mb-10">Re-Password *</label>
-                                        <input class="form-control" type="password" value="123456789">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="border-bottom pt-10 pb-10"></div>
-                            <div class="box-agree mt-30">
-                                <label class="lbl-agree font-xs color-text-paragraph-2">
-                                    <input class="lbl-checkbox" type="checkbox" value="1">Available for freelancers
-                                </label>
-                            </div>
-                            <div class="box-button mt-15">
-                                <button class="btn btn-apply-big font-md font-bold">Save All Changes</button>
-                            </div>
-                        </div>
-                    </div> --}}
 
                     <div class="col-lg-9 col-md-8 col-sm-12 col-12 mb-50">
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -218,7 +124,10 @@
                                                 <select name="industry_type" id=""
                                                     class="form-control form-icons select-active {{ $errors->has('industry_type') ? 'is-invalid' : '' }}">
                                                     <option value="">Select</option>
-                                                    <option value="0">Test1</option>
+                                                    @foreach ($IndustryTypes as $industryType)
+                                                        <option @selected($industryType->id === $companyInfo?->industry_type_id) value="{{ $industryType->id }}">{{ $industryType->name }}</option>
+                                                    @endforeach
+
                                                 </select>
                                                 <x-input-error :messages="$errors->get('industry_type')" class="mt-2" />
                                             </div>
@@ -230,7 +139,9 @@
                                                 <select name="organization_type" id=""
                                                     class="form-control form-icons select-active {{ $errors->has('organization_type') ? 'is-invalid' : '' }}">
                                                     <option value="">Select</option>
-                                                    <option value="0">Test1</option>
+                                                    @foreach ($OrganizationType as $organizationType)
+                                                        <option @selected($organizationType->id === $companyInfo?->organization_type_id) value="{{ $organizationType->id }}">{{ $organizationType->name }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <x-input-error :messages="$errors->get('organization_type')" class="mt-2" />
                                             </div>
@@ -242,7 +153,9 @@
                                                 <select name="team_size" id=""
                                                     class="form-control form-icons select-active {{ $errors->has('team_size') ? 'is-invalid' : '' }}">
                                                     <option value="">Select</option>
-                                                    <option value="0">Test1</option>
+                                                    @foreach ($TeamSize as $teamsize)
+                                                        <option @selected($teamsize->id === $companyInfo?->team_size_id) value="{{ $teamsize->id }}">{{ $teamsize->name }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <x-input-error :messages="$errors->get('team_size')" class="mt-2" />
                                             </div>
@@ -254,8 +167,8 @@
                                                     *</label>
                                                 <input
                                                     class="form-control datetimepicker {{ $errors->has('establishment_date') ? 'is-invalid' : '' }}"
-                                                    name="establishment_date" type="date"
-                                                    value="{{ $companyInfo?->establishment_date }}">
+                                                    name="establishment_date" type="text"
+                                                    value="{{ $companyInfo?->establishement_date }}">
                                                 <x-input-error :messages="$errors->get('establishment_date')" class="mt-2" />
                                             </div>
                                         </div>
@@ -294,9 +207,11 @@
                                             <div class="form-group select-style">
                                                 <label class="font-sm color-text-mutted mb-10">Country *</label>
                                                 <select name="country" id=""
-                                                    class="form-control form-icons select-active {{ $errors->has('country') ? 'is-invalid' : '' }}">
+                                                    class="form-control country form-icons select-active {{ $errors->has('country') ? 'is-invalid' : '' }}">
                                                     <option value="">Select</option>
-                                                    <option value="0">Test1</option>
+                                                    @foreach ($Countries as $country)
+                                                        <option @selected($country->id === $companyInfo?->country) value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <x-input-error :messages="$errors->get('country')" class="mt-2" />
                                             </div>
@@ -306,9 +221,11 @@
                                             <div class="form-group select-style">
                                                 <label class="font-sm color-text-mutted mb-10">State</label>
                                                 <select name="state" id=""
-                                                    class="form-control form-icons select-active {{ $errors->has('state') ? 'is-invalid' : '' }}">
+                                                    class="form-control state form-icons select-active {{ $errors->has('state') ? 'is-invalid' : '' }}">
                                                     <option value="">Select</option>
-                                                    <option value="0">Test1</option>
+                                                    @foreach ($states as $state)
+                                                        <option @selected($state->id === $companyInfo?->state) value="{{ $state->id }}">{{ $state->name }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <x-input-error :messages="$errors->get('state')" class="mt-2" />
                                             </div>
@@ -318,9 +235,11 @@
                                             <div class="form-group select-style">
                                                 <label class="font-sm color-text-mutted mb-10">City</label>
                                                 <select name="city" id=""
-                                                    class="form-control form-icons select-active {{ $errors->has('city') ? 'is-invalid' : '' }}">
+                                                    class="form-control city form-icons select-active {{ $errors->has('city') ? 'is-invalid' : '' }}">
                                                     <option value="">Select</option>
-                                                    <option value="0">Test1</option>
+                                                    @foreach ($cities as $city)
+                                                        <option @selected($city->id === $companyInfo?->city) value="{{ $city->id }}">{{ $city->name }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <x-input-error :messages="$errors->get('city')" class="mt-2" />
                                             </div>
@@ -427,3 +346,53 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.country').on('change',function(){
+                let country_id = $(this).val();
+                $('.city').html("");
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("get-states",":id") }}'.replace(":id", country_id),
+                    data: {},
+                    success: function(response){
+                        let html = '';
+
+                        $.each(response, function(index,value){
+                            html += `<option value="${value.id}"> ${value.name}</option>`
+                        });
+
+                        $('.state').html(html);
+                    },
+                    error:function(xhr, status, error){
+
+                    }
+                })
+            })
+
+            $('.state').on('change',function(){
+                let state_id = $(this).val();
+
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("get-cities",":id") }}'.replace(":id", state_id),
+                    data: {},
+                    success: function(response){
+                        let html = '';
+
+                        $.each(response, function(index,value){
+                            html += `<option value="${value.id}"> ${value.name}</option>`
+                        });
+
+                        $('.city').html(html);
+                    },
+                    error:function(xhr, status, error){
+
+                    }
+                })
+            })
+        })
+    </script>
+@endpush

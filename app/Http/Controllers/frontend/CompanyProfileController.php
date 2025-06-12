@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\IndustryType;
 use Illuminate\Http\Request;
 use App\Http\Requests\Frontend\CompanyFoundingUpdateRequest;
 use App\Models\Company;
@@ -13,6 +14,11 @@ use Illuminate\Validation\Rules;
 use Illuminate\Http\RedirectResponse;
 use App\Services\Notify;
 use App\Http\Controllers\Frontend\notifyController;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Organization;
+use App\Models\State;
+use App\Models\TeamSize;
 
 class CompanyProfileController extends Controller
 {
@@ -21,7 +27,13 @@ class CompanyProfileController extends Controller
     public function index()
     {
         $companyInfo = Company::where('user_id', auth('web')->user()->id)->first();
-        return view('frontend.company-dashboard.profile.index', compact('companyInfo'));
+        $IndustryTypes = IndustryType::all();
+        $OrganizationType = Organization::all();
+        $TeamSize = TeamSize::all();
+        $Countries = Country::all();
+        $states = State::select(['id', 'name', 'country_id'])->where('country_id', $companyInfo->country)->get();
+        $cities = City::select(['id', 'name', 'state_id', 'country_id'])->where('state_id', $companyInfo->state)->get();
+        return view('frontend.company-dashboard.profile.index', compact('companyInfo', 'IndustryTypes', 'OrganizationType', 'TeamSize', 'Countries', 'states', 'cities'));
     }
 
     public function updateCompanyInfo(CompanyInfoRequest $request): RedirectResponse
@@ -50,11 +62,20 @@ class CompanyProfileController extends Controller
             ['user_id' => $userId],
             $data
         );
-        notify()->success('Upadated Successfully','Success');
+
+        if (isCompanyProfileComplete()) {
+            $CompanyProfile = Company::where('user_id', auth('web')->user()->id)->first();
+            $CompanyProfile->profile_completion = 1;
+            $CompanyProfile->visibility = 1;
+            $CompanyProfile->save();
+        }
+
+        Notify::updatedNotification();
         return redirect()->back()->with('success', 'Company profile updated.');
     }
 
-    function updateFoundingInfo(CompanyFoundingUpdateRequest $request) : RedirectResponse {
+    function updateFoundingInfo(CompanyFoundingUpdateRequest $request): RedirectResponse
+    {
 
         Company::updateOrCreate(
             ['user_id' => auth('web')->user()->id],
@@ -74,28 +95,37 @@ class CompanyProfileController extends Controller
             ]
         );
 
-        notify()->success('Upadated Successfully','Success');
+        if (isCompanyProfileComplete()) {
+            $CompanyProfile = Company::where('user_id', auth('web')->user()->id)->first();
+            $CompanyProfile->profile_completion = 1;
+            $CompanyProfile->visibility = 1;
+            $CompanyProfile->save();
+        }
+
+        Notify::updatedNotification();
         return redirect()->back();
     }
 
-    function updateAccountInfo(Request $request) : RedirectResponse {
+    function updateAccountInfo(Request $request): RedirectResponse
+    {
         $vadlidateData = $request->validate([
-            'name' => ['required','string','max:50'],
-            'email' => ['required','email'],
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'email'],
         ]);
 
         Auth::user()->update($vadlidateData);
-        notify()->success('Upadated Successfully','Success');
+        Notify::updatedNotification();
         return redirect()->back();
     }
 
-    function updatePassword(Request $request) : RedirectResponse {
+    function updatePassword(Request $request): RedirectResponse
+    {
         $request->validate([
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         Auth::user()->update(['password' => bcrypt($request->password)]);
-        notify()->success('Upadated Successfully','Success');
+        Notify::updatedNotification();
         return redirect()->back();
     }
 }

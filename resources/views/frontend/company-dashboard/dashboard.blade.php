@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-12">
-                        <h2 class="mb-20">Dashboard</h2>
+                        <h2 class="mb-20">Company Dashboard</h2>
                         <ul class="breadcrumbs">
                             <li><a class="home-icon" href="{{ url('/') }}">Home</a></li>
                             <li>Dashboard</li>
@@ -45,22 +45,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            @if (!isCompanyProfileComplete())
+                                <div class="row">
                                 <div class="col-12 mt-30">
                                     <div class="dash_alert_box p-30 bg-danger rounded-4 d-flex flex-wrap">
                                         <span class="img">
-                                            <img src="assets/imgs/avatar/ava_17.png" alt="alert">
+                                            <img src="{{ asset(auth()->user()->image) }}" alt="alert">
                                         </span>
                                         <div class="text">
-                                            <h4>This is demo heading</h4>
-                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem aliquam quasi
-                                                deleniti nesciunt
-                                                obcaecati labore, magnam suscipit repudiandae corrupti laborum.</p>
+                                            <h4>WORNING : You have to complete your company profile first!</h4>
+                                            <p>Please complete your company profile to use all the features.</p>
                                         </div>
-                                        <a href="#" class="btn btn-default rounded-1">Edit Profile</a>
+                                        <a href="{{ route('company.profile') }}" class="btn btn-default rounded-1">Edit Profile</a>
                                     </div>
                                 </div>
                             </div>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>

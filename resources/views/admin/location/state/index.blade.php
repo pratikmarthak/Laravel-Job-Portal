@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>All Location Types</h4>
+                <h4>All State Types</h4>
                 <div class="card-header-form">
                     <form action="{{ route('admin.states.index') }}" method="get">
                         <div class="input-group">

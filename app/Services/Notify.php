@@ -5,16 +5,16 @@ namespace App\Services;
 class Notify{
     static function createdNotification()
     {
-        return notify()->success('Created Successfully','Success');
+        return noty()->success('Created Successfully',['position' => 'bottomRight']);
     }
     static function updatedNotification()
     {
-        return notify()->success('Updated Successfully','Success');
+        return noty()->success('Updated Successfully',['position' => 'bottomRight']);
     }
 
     static function deletedNotification()
     {
-        return notify()->success('Deleted Successfully','Success');
+        return noty()->success('Deleted Successfully',['position' => 'bottomRight']);
     }
 }
 
