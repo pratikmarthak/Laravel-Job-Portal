@@ -16,4 +16,6 @@ class Language extends Model
             ]
         ];
     }
+
+    
 }

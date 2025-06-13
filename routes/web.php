@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\CandidateExperienceController;
 use App\Http\Controllers\Frontend\CandidateProfileController;
 use App\Http\Controllers\Frontend\CompanyDashboardController;
 use App\Http\Controllers\Frontend\CompanyProfileController;
+use App\Http\Controllers\Frontend\FrontendCandidatePageController;
 use App\Http\Controllers\Frontend\FrontendCompanyPageController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LocationController;
@@ -79,4 +80,5 @@ Route::group(
 Route::get('companies',[FrontendCompanyPageController::class,'index'])->name('companies.index');
 Route::get('companies/{slug}',[FrontendCompanyPageController::class,'show'])->name('companies.show');
 
-//Route::get('candidates',[FrontendCompanyPageController::class,'index'])->name('candidates.index');
+Route::get('candidates',[FrontendCandidatePageController::class,'index'])->name('candidates.index');
+Route::get('candidates/{slug}',[FrontendCandidatePageController::class,'show'])->name('candidates.show');
