@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>General Dashboard &mdash; Stisla</title>
 
-    @notifyCss
+
 
     <!-- General CSS Files -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -64,10 +64,7 @@
     <script src="{{ asset('admin/assets/js/page/index-0.js') }}"></script>
     <script src="{{ asset('admin/assets/modules/sweetalert/sweetalert.min.js') }}"></script>
 
-    {{-- Notification start --}}
-    <x-notify::notify />
-    {{-- Notification end --}}
-    @notifyJs
+
 
     <!-- Template JS File -->
     <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>

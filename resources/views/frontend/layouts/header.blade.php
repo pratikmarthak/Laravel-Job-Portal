@@ -8,14 +8,14 @@
         <div class="header-nav">
           <nav class="nav-main-menu">
             <ul class="main-menu">
-              <li class="has-children"><a class="active" href="index.html">Home</a></li>
+              <li class="has-children"><a class="active" href="{{ url('/') }}">Home</a></li>
               <li class="has-children"><a href="jobs-list.html">Find a Job</a></li>
               <li class="has-children"><a href="companies-grid.html">Recruiters</a></li>
               <li class="has-children"><a href="candidates-grid.html">Candidates</a></li>
               <li class="has-children"><a href="blog-grid.html">Pages</a>
                 <ul class="sub-menu">
                   <li><a href="page-about.html">About Us</a></li>
-                  <li><a href="page-pricing.html">Pricing Plan</a></li>
+                  <li><a href="{{ route('pricing-index') }}">Pricing Plan</a></li>
                   <li><a href="page-contact.html">Contact Us</a></li>
                   <li><a href="page-register.html">Register</a></li>
                   <li><a href="page-signin.html">Signin</a></li>

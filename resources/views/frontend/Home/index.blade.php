@@ -33,7 +33,7 @@
     <!-- Top Recuiters Section End -->
 
     <!-- Pricing Plan Section Start -->
-    {{-- @include('frontend.home.sections.pricing-plan-section') --}}
+    @include('frontend.home.sections.pricing-plan-section')
     <!-- Pricing Plan Section End -->
 
     <!-- Job BY Location Section Start -->
