@@ -126,6 +126,9 @@
             </li>
 
             <li><a class="{{ setSidebarActive(['admin.plans.*']) }} nav-link" href="{{ route('admin.plans.index') }}"><i class="far fa-square"></i> <span>Price Plan</span></a></li>
+            <li><a class="{{ setSidebarActive(['admin.payment-setting-page.*']) }} nav-link" href="{{ route('admin.payment-setting-page') }}"><i class="far fa-square"></i> <span>Payment Settings</span></a></li>
+
+            <li><a class="{{ setSidebarActive(['admin.site-setting.index.*']) }} nav-link" href="{{ route('admin.site-setting.index') }}"><i class="far fa-square"></i> <span>Site Settings</span></a></li>
 
             {{-- <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
