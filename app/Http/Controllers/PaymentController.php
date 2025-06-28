@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
+use Stripe\Stripe;
+use Stripe\Checkout\Session as StripeSession;
+
 class PaymentController extends Controller
 {
 
@@ -100,9 +103,8 @@ class PaymentController extends Controller
 
                 Session::forget('selected_plan');
                 return redirect()->route('company.payment.success');
-
             } catch (\Exception $e) {
-                logger('Payment errors >>'.$e);
+                logger('Payment errors >>' . $e);
             }
         }
 
@@ -112,5 +114,65 @@ class PaymentController extends Controller
     function paypalCancel()
     {
         return redirect()->route('company.payment.error')->withErrors(['error' => 'something went wrong please try again']);
+    }
+
+    // Stripe Payment
+
+    function paywithStripe()
+    {
+        Stripe::setApiKey(config('gatewaySettings.stipe_secret_id'));
+
+        // Calculate Payable Amount
+        $payableAmount = round(Session::get('selected_plan')['price'] * config('gatewaySettings.stripe_country_rate')) * 100;
+        //dd($payableAmount);
+
+        $response = StripeSession::create([
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => config('gatewaySettings.stripe_country_currency'),
+                        'product_data' => [
+                            'name' => Session::get('selected_plan')['label'] . 'Package',
+                        ],
+                        'unit_amount' => $payableAmount
+                    ],
+                    'quantity' => 1
+                ]
+            ],
+            'mode' => 'payment',
+            'success_url' => route('company.stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('company.stripe.cancel')
+        ]);
+
+        //dd($response);
+
+        return redirect()->away($response->url);
+    }
+
+    function stripeSuccess(Request $request) {
+        Stripe::setApiKey(config('gatewaySettings.stipe_secret_id'));
+        $sessionId = $request->session_id;
+
+        $response = StripeSession::retrieve($sessionId);
+        //dd($response);
+
+        if($response->payment_status == 'paid'){
+            try {
+                OrderServie::storeOrder($response->payment_intent, 'stripe' , ($response->amount_total / 100), $response->currency, 'paid');
+                OrderServie::setUserPlan();
+
+                Session::forget('selected_plan');
+                return redirect()->route('company.payment.success');
+            } catch (\Exception $e) {
+                logger('Payment errors >>' . $e);
+            }
+        }
+        else{
+            redirect()->route('company.payment.error')->withErrors(['error' => 'Payment failed']);
+        }
+    }
+
+    function stipeCancel(){
+        redirect()->route('company.payment.error')->withErrors(['error' => 'Payment failed']);
     }
 }

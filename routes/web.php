@@ -88,8 +88,12 @@ Route::group(
     Route::get('payment/success',[PaymentController::class,'paymentSuccess'])->name('payment.success');
     Route::get('payment/cancel',[PaymentController::class,'paymentError'])->name('payment.error');
 
-});
+    /** Stripe Payment Routes */
+    Route::get('stripe/payment',[PaymentController::class,'paywithStripe'])->name('stripe.payment');
+    Route::get('stripe/success',[PaymentController::class,'stripeSuccess'])->name('stripe.success');
+    Route::get('stripe/cancel',[PaymentController::class,'stipeCancel'])->name('stripe.cancel');
 
+});
 
 Route::get('companies',[FrontendCompanyPageController::class,'index'])->name('companies.index');
 Route::get('companies/{slug}',[FrontendCompanyPageController::class,'show'])->name('companies.show');
