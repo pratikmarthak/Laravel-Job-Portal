@@ -79,7 +79,6 @@ return [
         'Nigeria Naira' => 'NGN',
         'Norway Krone' => 'NOK',
         'Oman Rial' => 'OMR',
-        'Pakistan Rupee' => 'PKR',
         'Panama Balboa' => 'PAB',
         'Paraguay Guarani' => 'PYG',
         'Peru Nuevo Sol' => 'PEN',
@@ -117,3 +116,5 @@ return [
         'Zimbabwe Dollar' => 'ZWD',
     ]
 ];
+
+

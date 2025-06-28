@@ -17,7 +17,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,6 +84,9 @@ Route::group(
     Route::get('paypal/payment',[PaymentController::class,'paywithPaypal'])->name('paypal.payment');
     Route::get('paypal/success',[PaymentController::class,'paypalSuccess'])->name('paypal.success');
     Route::get('paypal/cancel',[PaymentController::class,'paypalCancel'])->name('paypal.cancel');
+
+    Route::get('payment/success',[PaymentController::class,'paymentSuccess'])->name('payment.success');
+    Route::get('payment/cancel',[PaymentController::class,'paymentError'])->name('payment.error');
 
 });
 

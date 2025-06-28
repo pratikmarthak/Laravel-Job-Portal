@@ -20,7 +20,7 @@ class PaypalSettingsUpdateRequest extends FormRequest
             'paypal_account_mode' => ['required','in:sandbox,live'],
             'paypal_country_name' => ['required'],
             'paypal_country_currency' => ['required'],
-            'paypal_country_rate' => ['required','numeric'],
+            'paypal_country_rate' => ['required'],
             'paypal_client_id' => ['required'],
             'paypal_client_secret' => ['required'],
             'paypal_app_id' => ['required']

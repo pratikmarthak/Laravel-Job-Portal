@@ -10,7 +10,7 @@ class PaymentGatewaySettingsService{
     function getSetting(){
         return Cache::rememberForever('gatewaySettings', function()
         {
-            return PaymentSetting::pluck('value','key')->toArray() ;
+            return PaymentSetting::pluck('value','key')->toArray();
         });
     }
 
