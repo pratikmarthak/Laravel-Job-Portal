@@ -93,6 +93,11 @@ Route::group(
     Route::get('stripe/success',[PaymentController::class,'stripeSuccess'])->name('stripe.success');
     Route::get('stripe/cancel',[PaymentController::class,'stipeCancel'])->name('stripe.cancel');
 
+
+    Route::get('razorpay/redirect',[PaymentController::class,'razorpayRedirect'])->name('razorpay.redirect');
+    Route::post('razorpay/payment',[PaymentController::class,'paywithRazorpay'])->name('razorpay.payment');
+
+
 });
 
 Route::get('companies',[FrontendCompanyPageController::class,'index'])->name('companies.index');

@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="">Stripe Status</label>
-                        <select name="paypal_status" class="form-control {{ hasError($errors, 'stripe_status') }}">
+                        <select name="stripe_status" class="form-control {{ hasError($errors, 'stripe_status') }}">
                             <option @selected(config('gatewaySettings.stripe_status') === 'active') value="active">Active</option>
                             <option @selected(config('gatewaySettings.stripe_status') === 'inactive') value="inactive">Inactive</option>
                         </select>

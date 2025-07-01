@@ -105,6 +105,7 @@ Route::group([
     Route::get('payment-settings',[PaymentSettingController::class,'index'])->name('payment-setting-page');
     Route::post('paypal-settings',[PaymentSettingController::class,'updatePaypalSetting'])->name('paypal-setting.update');
     Route::post('stripe-settings',[PaymentSettingController::class,'updateStripeSetting'])->name('stripe-setting.update');
+    Route::post('razorpay-settings',[PaymentSettingController::class,'updateRazorpaySetting'])->name('razorpay-setting.update');
 
     // Site Setting Route
     Route::get('site-settings',[SiteSettingsController::class,'index'])->name('site-setting.index');

@@ -16,7 +16,7 @@ class StripeSettingsUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paypal_status' => ['required','in:active,inactive'],
+            'stripe_status' => ['required','in:active,inactive'],
             'stripe_country_name' => ['required'],
             'stripe_country_currency' => ['required'],
             'stripe_country_rate' => ['required','numeric'],

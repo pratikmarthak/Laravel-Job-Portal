@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
+use Razorpay\Api\Api as RazorpayApi;
 
 class PaymentController extends Controller
 {
@@ -48,7 +49,7 @@ class PaymentController extends Controller
     }
     function paywithPaypal()
     {
-
+        abort_if(!$this->checkSession(),404);
         //dd(config('gatewaySettings.paypal_country_currency'));
         $config = $this->setPaypalConfig();
 
@@ -88,6 +89,7 @@ class PaymentController extends Controller
 
     function paypalSuccess(Request $request)
     {
+        abort_if(!$this->checkSession(),404);
         $config = $this->setPaypalConfig();
         $provider = new PayPalClient($config);
         $provider->getAccessToken();
@@ -120,6 +122,7 @@ class PaymentController extends Controller
 
     function paywithStripe()
     {
+        abort_if(!$this->checkSession(),404);
         Stripe::setApiKey(config('gatewaySettings.stipe_secret_id'));
 
         // Calculate Payable Amount
@@ -149,16 +152,18 @@ class PaymentController extends Controller
         return redirect()->away($response->url);
     }
 
-    function stripeSuccess(Request $request) {
+    function stripeSuccess(Request $request)
+    {
+        abort_if(!$this->checkSession(),404);
         Stripe::setApiKey(config('gatewaySettings.stipe_secret_id'));
         $sessionId = $request->session_id;
 
         $response = StripeSession::retrieve($sessionId);
         //dd($response);
 
-        if($response->payment_status == 'paid'){
+        if ($response->payment_status == 'paid') {
             try {
-                OrderServie::storeOrder($response->payment_intent, 'stripe' , ($response->amount_total / 100), $response->currency, 'paid');
+                OrderServie::storeOrder($response->payment_intent, 'stripe', ($response->amount_total / 100), $response->currency, 'paid');
                 OrderServie::setUserPlan();
 
                 Session::forget('selected_plan');
@@ -166,13 +171,64 @@ class PaymentController extends Controller
             } catch (\Exception $e) {
                 logger('Payment errors >>' . $e);
             }
-        }
-        else{
+        } else {
             redirect()->route('company.payment.error')->withErrors(['error' => 'Payment failed']);
         }
     }
 
-    function stipeCancel(){
+    function stipeCancel()
+    {
         redirect()->route('company.payment.error')->withErrors(['error' => 'Payment failed']);
+    }
+
+
+    function razorpayRedirect(): View
+    {
+        abort_if(!$this->checkSession(),404);
+        return view('frontend.page.razorpay-redirect');
+    }
+
+    function paywithRazorpay(Request $request)
+    {
+        abort_if(!$this->checkSession(),404);
+        //dd($request->all());
+
+        $api = new RazorpayApi(
+            config('gatewaySettings.razorpay_key'),
+            config('gatewaySettings.razorpay_secret_id')
+        );
+
+        if (isset($request->razorpay_payment_id) && $request->filled('razorpay_payment_id')) {
+            $payableAmount = (session('selected_plan')['price'] * config('gatewaySettings.razorpay_country_rate')) * 100;
+
+            try {
+                $response = $api->payment
+                    ->fetch($request->razorpay_payment_id)
+                    ->capture(['amount' => $payableAmount]);
+                //dd($response);
+
+                if ($response['status'] == 'captured') {
+                    OrderServie::storeOrder($response->id, 'rezorpay', ($response->amount / 100), $response->currency, 'paid');
+                    OrderServie::setUserPlan();
+
+                    Session::forget('selected_plan');
+                    return redirect()->route('company.payment.success');
+                }
+                else{
+                    redirect()->route('company.payment.error')->withErrors(['error' => 'Something went wrong']);
+                }
+            } catch (\Exception $e) {
+                logger($e);
+                redirect()->route('company.payment.error')->withErrors(['error' => $e->getMessage()]);
+            }
+        }
+    }
+
+    /** Check Session */
+    public function checkSession():bool {
+        if(session('selected_plan')){
+            return True;
+        }
+        return False;
     }
 }
